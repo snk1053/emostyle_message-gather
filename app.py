@@ -90,7 +90,7 @@ def get_user_info(user_id: str) -> dict:
 def make_payload(ch_id: str, ch_type: str, permalink: str) -> str:
     ch_name = get_channel_name(ch_id)
     ch_display = f"#{ch_name}"
-    return f"{ch_display} を <{permalink}|覗き見>"
+    return f"{ch_display} を <{permalink}|元投稿リンクはこちら>"
 
 #-------------------------------------------------
 # Unfurl 用ブロック
@@ -390,13 +390,6 @@ def relay(event, logger):
         logger.error(f"Error in relay: {e}")
         import traceback
         logger.error(f"Detailed error: {traceback.format_exc()}")
-
-#-------------------------------------------------
-# チャンネル作成イベント → 自動参加
-#-------------------------------------------------
-@app.event("channel_created")
-def auto_join(body, event, logger):
-    client.conversations_join(channel=event["channel"]["id"])
 
 #-------------------------------------------------
 # ファイル共有イベントを処理
